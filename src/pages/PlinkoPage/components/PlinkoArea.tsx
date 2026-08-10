@@ -9,7 +9,7 @@ const Engine = Matter.Engine,
     Composite = Matter.Composite;
 
 const CENTER = 300;
-const GAP_H = 75;
+const GAP_H = 80;
 const GAP_V = 60;
 const STATIC_BALL_R = 8;
 const INITIAL_STATIC_BALL_Y = 100;
@@ -17,18 +17,14 @@ const BALL_R = 5;
 const BALL_DROP_Y = 10;
 const BOUNCINESS = 0.25
 
+const engine = Engine.create();
 
 export const PlinkoArea = () => {
     const areaRef = useRef(null);
-    const engine = Engine.create();
-    const bets = [5, 10, 20, 50, 100, 500, -1];
-    const bet = useState<number>(5);
-   
+    const bets = [5, 10, 20, 50, 100, 500, 1000];
+    const [bet, setBet] = useState<number>(5);
+
     useEffect(() => {
-         const render = Render.create({
-        element: areaRef.current,
-        engine: engine
-    });
         const staticBalls = [];
         for (let row = 0; row < 7; row++) {
             for (let count = 0; count <= row; count++) {
@@ -41,6 +37,10 @@ export const PlinkoArea = () => {
 
         // add all of the bodies to the world
         Composite.add(engine.world, [...staticBalls, ground]);
+        const render = Render.create({
+            element: areaRef.current,
+            engine: engine
+        });
 
         // run the renderer
         Render.run(render);
@@ -59,9 +59,13 @@ export const PlinkoArea = () => {
     }, [])
 
     return <div>
+        <select onChange={(event) => setBet(Number(event.target.value))}>
+            {bets.map((bet) => <option value={bet}>{bet}</option>)}
+        </select>
         <button onClick={() => {
             const shift = getRandomFloat(-3, 3)
-            Composite.add(engine.world, Bodies.circle(CENTER + shift, BALL_DROP_Y, BALL_R, {restitution: BOUNCINESS, label: bet}))
+            console.log(bet)
+            Composite.add(engine.world, Bodies.circle(CENTER + shift, BALL_DROP_Y, BALL_R, { restitution: BOUNCINESS, label: bet }))
         }}>Drop</button>
         <div id='plinko' ref={areaRef}></div>
     </div>
