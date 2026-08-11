@@ -3,6 +3,8 @@ import { useEffect, useRef, useState } from 'react'
 import { getRandomFloat } from '../../../shared/helpers/helpers';
 import styles from './PlinkoArea.module.scss'
 import { addToBalance } from '../../../shared/balance/actions';
+import { $balance } from '../../../shared/balance/store';
+import { useUnit } from 'effector-react';
 const Engine = Matter.Engine,
     Render = Matter.Render,
     Runner = Matter.Runner,
@@ -11,21 +13,24 @@ const Engine = Matter.Engine,
     Composite = Matter.Composite;
 
 const CENTER = 500;
-const GAP_H = 80;
-const GAP_V = 60;
-const STATIC_BALL_R = 8;
+const GAP_H = 40;
+const GAP_V = 30;
+
+const STATIC_BALL_R = 5;
+const BALL_R = 3;
+
 const INITIAL_STATIC_BALL_Y = 100;
-const BALL_R = 5;
 const BALL_DROP_Y = 10;
 const BOUNCINESS = 0.25
-const ROW_COUNT = 9;
-const MULTIPLIERS = [12, 2, 1, 0.5, 0.5, 1, 2, 12] // row count - 1
+const ROW_COUNT = 15;
+const MULTIPLIERS =  [10, 3, 2, 1, 0.75, 0.25, 0.1, 0.1, 0.25, 0.75, 1, 2, 3, 10]   // row count - 1
 const GAP_TO_BOXES = 20;
 
 const engine = Engine.create();
 
 export const PlinkoArea = () => {
     const areaRef = useRef(null);
+    const balance = useUnit($balance);
     const textCanvasRef = useRef(null);
     const bets = [5, 10, 20, 50, 100, 500, 1000];
     const [bet, setBet] = useState<number>(5);
@@ -40,7 +45,7 @@ export const PlinkoArea = () => {
             }
         }
         const ctx = textCanvasRef.current.getContext('2d');
-        ctx.font = '16pt Arial';
+        ctx.font = '8pt Arial';
         ctx.fillStyle = 'white'; // Цвет заливки
         ctx.textAlign = 'center';
 
@@ -92,10 +97,11 @@ export const PlinkoArea = () => {
         <select onChange={(event) => setBet(Number(event.target.value))}>
             {bets.map((bet) => <option value={bet}>{bet}</option>)}
         </select>
-        <button onClick={() => {
+        <button disabled={balance < 0.01} onClick={() => {
             const shift = getRandomFloat(-3, 3)
-            addToBalance(-bet);
-            const body = Bodies.circle(CENTER + shift, BALL_DROP_Y, BALL_R, { restitution: BOUNCINESS, label: 'BALL', value: bet })
+            const availableBet = Math.min(bet, balance)
+            addToBalance(-availableBet);
+            const body = Bodies.circle(CENTER + shift, BALL_DROP_Y, BALL_R, { restitution: BOUNCINESS, label: 'BALL', value: availableBet })
             ballsRef.current[body.id] = body;
             Composite.add(engine.world, body);
         }}>Деп</button>
