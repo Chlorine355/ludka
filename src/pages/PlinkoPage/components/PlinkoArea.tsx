@@ -1,4 +1,4 @@
-import Matter from 'matter-js'
+import Matter, { Engine as EngineType, type IEventCollision } from 'matter-js'
 import { useEffect, useRef, useState } from 'react'
 import { getRandomFloat } from '../../../shared/helpers/helpers';
 import styles from './PlinkoArea.module.scss'
@@ -80,7 +80,7 @@ export const PlinkoArea = () => {
         // run the engine
         Runner.run(runner, engine);
 
-        const collisionHandler = (event) => {
+        const collisionHandler = (event: IEventCollision<EngineType>) => {
             const pairs = event.pairs;
             for (const pair of pairs) {
                 if (pair.bodyA.label === 'BOX' || pair.bodyB.label === 'BOX') {
