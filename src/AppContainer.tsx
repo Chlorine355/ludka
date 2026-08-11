@@ -1,5 +1,5 @@
 import { Outlet } from 'react-router-dom';
-import './App.css'
+import './reset.css'
 
 function AppContainer() {
   return <div className="app_container">

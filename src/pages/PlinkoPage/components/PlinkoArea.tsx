@@ -26,7 +26,6 @@ const ROW_COUNT = 15;
 const MULTIPLIERS =  [10, 3, 2, 1, 0.75, 0.25, 0.1, 0.1, 0.25, 0.75, 1, 2, 3, 10]   // row count - 1
 const GAP_TO_BOXES = 20;
 
-const engine = Engine.create();
 
 export const PlinkoArea = () => {
     const areaRef = useRef(null);
@@ -35,6 +34,7 @@ export const PlinkoArea = () => {
     const bets = [5, 10, 20, 50, 100, 500, 1000];
     const [bet, setBet] = useState<number>(5);
     const ballsRef = useRef<Record<number, object>>({});
+    const [engine] = useState(Engine.create());
 
     useEffect(() => {
         const staticBalls = [];
@@ -106,8 +106,8 @@ export const PlinkoArea = () => {
             Composite.add(engine.world, body);
         }}>Деп</button>
         <div id='plinko' className={styles.main}>
-            <canvas id='canvas' width={1200} height={800} ref={areaRef} style={{ position: 'absolute' }}></canvas>
-            <canvas id='overlay' width={1200} height={800} style={{ background: 'transparent', position: 'absolute' }} ref={textCanvasRef}></canvas>
+            <canvas id='canvas' width={1200} height={800} ref={areaRef} style={{ position: 'absolute', width:'100%' }}></canvas>
+            <canvas id='overlay' width={1200} height={800} style={{ background: 'transparent', position: 'absolute', width:'100%' }} ref={textCanvasRef}></canvas>
         </div>
     </div>
 }
