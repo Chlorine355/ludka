@@ -12,7 +12,7 @@ const Engine = Matter.Engine,
     Events = Matter.Events,
     Composite = Matter.Composite;
 
-const CENTER = 500;
+const CENTER = 400;
 const GAP_H = 40;
 const GAP_V = 30;
 
@@ -26,6 +26,8 @@ const ROW_COUNT = 15;
 const MULTIPLIERS =  [10, 3, 2, 1, 0.75, 0.25, 0.1, 0.1, 0.25, 0.75, 1, 2, 3, 10]   // row count - 1
 const GAP_TO_BOXES = 20;
 
+const CANVAS_HEIGHT = 800;
+const CANVAS_WIDTH = 800;
 
 export const PlinkoArea = () => {
     const areaRef = useRef(null);
@@ -69,8 +71,8 @@ export const PlinkoArea = () => {
             canvas: areaRef.current,
             engine: engine,
         });
-        render.canvas.width = 1200;
-        render.canvas.height = 800;
+        render.canvas.width = CANVAS_WIDTH;
+        render.canvas.height = CANVAS_HEIGHT;
 
         // run the renderer
         Render.run(render);
@@ -101,8 +103,8 @@ export const PlinkoArea = () => {
             </select>
         </div>
         <div id='plinko' className={styles.main}>
-            <canvas id='canvas' width={1200} height={800} ref={areaRef}></canvas>
-            <canvas id='overlay' width={1200} height={800} style={{ background: 'transparent' }} ref={textCanvasRef}></canvas>
+            <canvas id='canvas' width={CANVAS_WIDTH} height={CANVAS_HEIGHT} ref={areaRef}></canvas>
+            <canvas id='overlay' width={CANVAS_WIDTH} height={CANVAS_HEIGHT} style={{ background: 'transparent' }} ref={textCanvasRef}></canvas>
         </div>
         <button className={styles.play} disabled={balance < 0.01} onClick={() => {
             const shift = getRandomFloat(-3, 3)

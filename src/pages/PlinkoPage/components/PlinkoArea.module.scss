@@ -1,17 +1,17 @@
 @use '../../../shared/styles/variables' as *;
 @use '../../../shared/styles/mixins' as *;
 
-// Контейнер всего блока игры: canvas + панель управления
+// Контейнер игры: canvas растягивается на всё свободное место
 .area {
     display: flex;
     flex-direction: column;
-    gap: $space-md;
+    gap: $space-sm;
     width: 100%;
-    max-width: 720px;               // не растягивать слишком широко на десктопе
-    align-items: center;
+    flex: 1; // занимает всю оставшуюся высоту страницы
+    min-height: 0; // разрешаем flex-ребёнку сжиматься
 }
 
-// Строка с выбором ставки
+// Строка выбора ставки — компактная
 .betRow {
     display: flex;
     align-items: center;
@@ -22,7 +22,7 @@
 
 .betLabel {
     font-family: $font-main;
-    font-size: $font-size-md;
+    font-size: 0.85rem;
     font-weight: 700;
     letter-spacing: 0.06em;
     text-transform: uppercase;
@@ -30,15 +30,15 @@
     white-space: nowrap;
 }
 
-// Стилизованный select в общем стиле приложения
+// Стилизованный select — компактный
 .select {
     appearance: none;
     -webkit-appearance: none;
     -moz-appearance: none;
     flex: 1;
-    padding: 12px $space-md;
+    padding: 8px $space-md;
     border: 1px solid rgba($gold, 0.5);
-    border-radius: $radius-md;
+    border-radius: $radius-sm;
     background-color: $bg-panel-solid;
     color: $text-main;
     font-family: $font-main;
@@ -68,23 +68,27 @@
     }
 }
 
-// Область canvas на всю ширину
+// Canvas занимает всё доступное место, сохраняя пропорции
 .main {
     position: relative;
     width: 100%;
-    aspect-ratio: 3 / 2;            // сохраняем пропорции 1200x800
+    flex: 1; // растягивается на свободное место по вертикали
+    min-height: 0;
     overflow: hidden;
+    display: flex;
 
     canvas {
-        position: absolute;
-        inset: 0;
+        margin: auto; // центрирует canvas внутри контейнера
         width: 100%;
         height: 100%;
+        position: absolute;
+        object-fit: contain; // вписываем без обрезки, сохраняя 3:2
     }
 }
 
-// Кнопка игры внизу (disabled-состояние задаётся миксином neon-button)
+// Кнопка игры внизу — компактная
 .play {
     @include neon-button($neon-green, $neon-green);
     width: min(280px, 80vw);
+    align-self: center;
 }

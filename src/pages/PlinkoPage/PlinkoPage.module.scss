@@ -3,28 +3,30 @@
 
 .page {
     @include casino-background;
-    padding: $space-md;                // компактнее на мобильных
+    height: 100dvh;                 // вся высота окна браузера
+    min-height: 100dvh;
+    padding: $space-xs $space-md;   // минимальные отступы
+    justify-content: flex-start;    // прижимаем контент к верху, canvas растёт вниз
     box-sizing: border-box;
 
     @include media-up($bp-md) {
-        padding: $space-lg;
+        padding: $space-sm $space-lg;
     }
 }
 
+// Компактный заголовок — не должен занимать место игрового поля
 .title {
     @include gold-title;
-    margin-bottom: $space-md;
-
-    @include media-up($bp-md) {
-        margin-bottom: $space-lg;
-    }
+    margin: $space-xs 0;
 }
 
+// Компактный бейдж баланса в одну строку
 .balance {
-    @include casino-card($radius: $radius-md);
-    margin-bottom: $space-md;
+    @include casino-card($radius: $radius-sm);
+    margin: 0 0 $space-sm;
+    padding: $space-xs $space-sm;
     font-family: $font-main;
-    font-size: $font-size-lg;
+    font-size: $font-size-md;
     font-weight: 800;
     color: $neon-cyan;
     text-shadow: 0 0 12px rgba($neon-cyan, 0.6);

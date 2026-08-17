@@ -3,7 +3,7 @@ import styles from './MainMenuPage.module.scss'
 
 export const MainMenuPage = () => {
     return <div className={styles.page}>
-        <h1 className={styles.title}>Ludka Casino</h1>
+        <h1 className={styles.title}>Ludventure</h1>
         <ul className={styles.menu}>
             <li className={styles.item}>
                 <Link to={'/roulette'} className={`${styles.link} ${styles.roulette}`}>Рулетка</Link>
