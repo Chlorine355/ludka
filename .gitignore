@@ -22,3 +22,16 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# abgroup-agent:generated:start
+/.agents/local.json
+/.agents/kubeconfig.yaml
+/.agents/generated/
+/.agents/mcp_config.json
+/.codex/config.toml
+/.mcp.json
+/opencode.json
+/.gemini/settings.json
+/.opencode/opencode.json
+/graphify-out/
+# abgroup-agent:generated:end

@@ -30,7 +30,7 @@ const GAP_TO_BOXES = 20;
 export const PlinkoArea = () => {
     const areaRef = useRef(null);
     const balance = useUnit($balance);
-    const textCanvasRef = useRef(null);
+    const textCanvasRef = useRef(null); 
     const bets = [5, 10, 20, 50, 100, 500, 1000];
     const [bet, setBet] = useState<number>(5);
     const ballsRef = useRef<Record<number, object>>({});
@@ -93,21 +93,24 @@ export const PlinkoArea = () => {
         Events.on(engine, 'collisionStart', collisionHandler)
     }, [])
 
-    return <div>
-        <select onChange={(event) => setBet(Number(event.target.value))}>
-            {bets.map((bet) => <option value={bet}>{bet}</option>)}
-        </select>
-        <button disabled={balance < 0.01} onClick={() => {
+    return <div className={styles.area}>
+        <div className={styles.betRow}>
+            <label className={styles.betLabel} htmlFor="plinko-bet">Ставка</label>
+            <select id="plinko-bet" className={styles.select} value={bet} onChange={(event) => setBet(Number(event.target.value))}>
+                {bets.map((bet) => <option value={bet}>{bet}</option>)}
+            </select>
+        </div>
+        <div id='plinko' className={styles.main}>
+            <canvas id='canvas' width={1200} height={800} ref={areaRef}></canvas>
+            <canvas id='overlay' width={1200} height={800} style={{ background: 'transparent' }} ref={textCanvasRef}></canvas>
+        </div>
+        <button className={styles.play} disabled={balance < 0.01} onClick={() => {
             const shift = getRandomFloat(-3, 3)
             const availableBet = Math.min(bet, balance)
             addToBalance(-availableBet);
             const body = Bodies.circle(CENTER + shift, BALL_DROP_Y, BALL_R, { restitution: BOUNCINESS, label: 'BALL', value: availableBet })
             ballsRef.current[body.id] = body;
             Composite.add(engine.world, body);
-        }}>Деп</button>
-        <div id='plinko' className={styles.main}>
-            <canvas id='canvas' width={1200} height={800} ref={areaRef} style={{ position: 'absolute', width:'100%' }}></canvas>
-            <canvas id='overlay' width={1200} height={800} style={{ background: 'transparent', position: 'absolute', width:'100%' }} ref={textCanvasRef}></canvas>
-        </div>
+        }}>Играть</button>
     </div>
 }

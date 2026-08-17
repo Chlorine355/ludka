@@ -1,9 +1,56 @@
+@use '../../shared/styles/variables' as *;
+@use '../../shared/styles/mixins' as *;
+
 .page {
-    display: block;
+    @include casino-background;
+    padding: $space-md;                // компактнее на мобильных
+    box-sizing: border-box;
+
+    @include media-up($bp-md) {
+        padding: $space-lg;
+    }
+}
+
+// Тайтл вынесен в разметку страницы (см. MainMenuPage.tsx)
+.title {
+    @include gold-title;
+    margin-bottom: $space-md;
+
+    @include media-up($bp-md) {
+        margin-bottom: $space-lg;
+    }
 }
 
 .menu {
+    @include casino-card;
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: $space-sm;                    // плотнее на мобильных
+    list-style: none;
+    margin: 0;
+    padding: $space-md;
+    width: 100%;                       // mobile-first: занимает всю ширину
+    max-width: 360px;                  // на десктопе не шире карточки
+    align-items: stretch;              // кнопки растягиваются на ширину панели
+
+    @include media-up($bp-md) {
+        gap: $space-md;
+        padding: $space-lg;
+        max-width: 380px;
+    }
 }
+
+.item {
+    margin: 0;
+}
+
+.link {
+    // каждая плашка меню — своя неоновая кнопка с индивидуальным цветом
+    width: 100%;
+}
+
+// Персонализация цвета каждой ссылки через модификаторы
+.roulette { @include neon-button($neon-cyan, $neon-cyan); }
+.slots    { @include neon-button($neon-pink, $neon-pink); }
+.plinko   { @include neon-button($neon-green, $neon-green); }
+.deposit  { @include neon-button($gold, $gold-deep); }

@@ -1,0 +1,44 @@
+@use '../../shared/styles/variables' as *;
+@use '../../shared/styles/mixins' as *;
+
+.page {
+    @include casino-background;
+    padding: $space-md;                // компактнее на мобильных
+    box-sizing: border-box;
+
+    @include media-up($bp-md) {
+        padding: $space-lg;
+    }
+}
+
+.title {
+    @include gold-title;
+    margin-bottom: $space-md;
+
+    @include media-up($bp-md) {
+        margin-bottom: $space-lg;
+    }
+}
+
+// Большой бейдж с текущим балансом, в стиле Plinko
+.balance {
+    @include casino-card($radius: $radius-md);
+    margin-bottom: $space-lg;
+    font-family: $font-main;
+    font-size: clamp(2.5rem, 12vw, 4rem);
+    font-weight: 900;
+    color: $neon-cyan;
+    text-shadow: 0 0 14px rgba($neon-cyan, 0.6);
+    text-align: center;
+    min-width: 220px;
+
+    @include media-up($bp-md) {
+        margin-bottom: $space-xl;
+    }
+}
+
+// Кнопка сброса баланса
+.reset {
+    @include neon-button($neon-pink, $neon-pink);
+    width: min(280px, 80vw);
+}

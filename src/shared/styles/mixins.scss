@@ -1,0 +1,137 @@
+// ==========================================================================
+// Casino theme — переиспользуемые миксины. Импортировать вместе с variables:
+//   @use 'shared/styles/variables' as *;
+//   @use 'shared/styles/mixins' as *;
+// ==========================================================================
+
+@use './variables' as *;
+@use 'sass:color';
+
+// --- Неоновая кнопка-планка ---------------------------------------------
+// Основной интерактивный элемент: градиентная кнопка с неоновым свечением.
+// @param $color     — основной цвет кнопки
+// @param $glow      — цвет свечения (обычно тот же, что $color)
+@mixin neon-button($color: $neon-purple, $glow: $neon-purple) {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: $space-sm;
+    padding: 14px $space-md;            // компактно на мобильных (mobile-first)
+    border: none;
+    border-radius: $radius-md;
+    color: $text-main;
+    font-family: $font-main;
+    font-size: $font-size-md;
+    font-weight: 800;
+
+    // крупнее на планшетах и выше
+    @include media-up($bp-md) {
+        padding: 16px $space-lg;
+    }
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-decoration: none;
+    cursor: pointer;
+    background-image: linear-gradient(145deg, $color, color.adjust($color, $lightness: -22%));
+    box-shadow:
+        0 0 18px rgba($glow, 0.55),
+        0 0 46px rgba($glow, 0.28),
+        inset 0 1px 0 rgba(255, 255, 255, 0.35);
+    transition: transform 0.15s ease, box-shadow 0.2s ease, filter 0.2s ease;
+
+    &:hover {
+        transform: translateY(-2px) scale(1.03);
+        filter: brightness(1.1);
+        box-shadow:
+            0 0 26px rgba($glow, 0.8),
+            0 0 70px rgba($glow, 0.4),
+            inset 0 1px 0 rgba(255, 255, 255, 0.45);
+    }
+
+    &:active {
+        transform: translateY(0) scale(0.98);
+    }
+
+    &:disabled {
+        opacity: 0.45;
+        cursor: not-allowed;
+        transform: none;
+        filter: grayscale(0.6);
+    }
+}
+
+// --- Карточка меню --------------------------------------------------------
+// Стеклянная панель с золотой рамкой и мягким свечением.
+@mixin casino-card($radius: $radius-lg) {
+    padding: $space-lg;
+    border-radius: $radius;
+    background: $bg-panel;
+    border: 1px solid rgba($gold, 0.45);
+    box-shadow:
+        0 8px 32px rgba(0, 0, 0, 0.45),
+        inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(8px);
+}
+
+// --- Золотой заголовок-бейдж ---------------------------------------------
+// Центрированный заголовок с золотым градиентом и неоновой тенью.
+@mixin gold-title($size: $font-size-title) {
+    margin: 0;
+    font-family: $font-main;
+    font-size: $size;
+    font-weight: 900;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    text-align: center;
+    color: $gold;
+    background-image: linear-gradient(180deg, $gold-bright 0%, $gold 45%, $gold-deep 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 0 14px rgba($gold, 0.45));
+}
+
+// --- Фоновая сетка с центрированным свечением -----------------------------
+// Тёмный фиолетовый фон + золотое свечение сверху + неоновая сетка.
+@mixin casino-background {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: $bg-deep;
+
+    // золотое свечение в центре
+    &::before {
+        content: '';
+        position: absolute;
+        top: -20%;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 80vw;
+        height: 60vh;
+        background: radial-gradient(ellipse at center, rgba($gold, 0.18) 0%, transparent 70%);
+        pointer-events: none;
+        z-index: 0;
+    }
+
+    // неоновая сетка линий
+    &::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background-image:
+            linear-gradient(rgba($neon-cyan, 0.06) 1px, transparent 1px),
+            linear-gradient(90deg, rgba($neon-cyan, 0.06) 1px, transparent 1px);
+        background-size: 44px 44px;
+        pointer-events: none;
+        z-index: 0;
+    }
+
+    // контент всегда выше декоративных слоёв
+    > * {
+        position: relative;
+        z-index: 1;
+    }
+}

@@ -1,3 +1,90 @@
-.main {
+@use '../../../shared/styles/variables' as *;
+@use '../../../shared/styles/mixins' as *;
+
+// Контейнер всего блока игры: canvas + панель управления
+.area {
+    display: flex;
+    flex-direction: column;
+    gap: $space-md;
     width: 100%;
+    max-width: 720px;               // не растягивать слишком широко на десктопе
+    align-items: center;
+}
+
+// Строка с выбором ставки
+.betRow {
+    display: flex;
+    align-items: center;
+    gap: $space-sm;
+    width: 100%;
+    max-width: 420px;
+}
+
+.betLabel {
+    font-family: $font-main;
+    font-size: $font-size-md;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: $gold;
+    white-space: nowrap;
+}
+
+// Стилизованный select в общем стиле приложения
+.select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    flex: 1;
+    padding: 12px $space-md;
+    border: 1px solid rgba($gold, 0.5);
+    border-radius: $radius-md;
+    background-color: $bg-panel-solid;
+    color: $text-main;
+    font-family: $font-main;
+    font-size: $font-size-md;
+    font-weight: 700;
+    cursor: pointer;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23ffd700' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    padding-right: 44px;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+
+    &:hover {
+        border-color: rgba($gold, 0.8);
+    }
+
+    &:focus-visible {
+        outline: none;
+        border-color: $neon-cyan;
+        box-shadow: 0 0 0 3px rgba($neon-cyan, 0.25);
+    }
+
+    option {
+        background-color: $bg-panel-solid;
+        color: $text-main;
+    }
+}
+
+// Область canvas на всю ширину
+.main {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 3 / 2;            // сохраняем пропорции 1200x800
+    overflow: hidden;
+
+    canvas {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+    }
+}
+
+// Кнопка игры внизу (disabled-состояние задаётся миксином neon-button)
+.play {
+    @include neon-button($neon-green, $neon-green);
+    width: min(280px, 80vw);
 }

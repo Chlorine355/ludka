@@ -1,0 +1,31 @@
+@use '../../shared/styles/variables' as *;
+@use '../../shared/styles/mixins' as *;
+
+.page {
+    @include casino-background;
+    padding: $space-md;                // компактнее на мобильных
+    box-sizing: border-box;
+
+    @include media-up($bp-md) {
+        padding: $space-lg;
+    }
+}
+
+.title {
+    @include gold-title;
+    margin-bottom: $space-md;
+
+    @include media-up($bp-md) {
+        margin-bottom: $space-lg;
+    }
+}
+
+.balance {
+    @include casino-card($radius: $radius-md);
+    margin-bottom: $space-md;
+    font-family: $font-main;
+    font-size: $font-size-lg;
+    font-weight: 800;
+    color: $neon-cyan;
+    text-shadow: 0 0 12px rgba($neon-cyan, 0.6);
+}
