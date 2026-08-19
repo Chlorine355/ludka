@@ -1,0 +1,14 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+// Кнопка «в меню»: закреплена сверху слева, поверх игрового поля.
+.back {
+    position: fixed;
+    top: $space-sm;
+    left: $space-sm;
+    z-index: 50;
+    @include neon-button($neon-purple, $neon-purple);
+    padding: 8px 16px;              // компактнее обычной кнопки
+    font-size: 0.85rem;
+    border-radius: $radius-sm;
+}
